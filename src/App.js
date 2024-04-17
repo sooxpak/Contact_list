@@ -1,7 +1,7 @@
-import "./App.css";
+import {useReducer, useRef, useCallback} from "react";
 import ContactEditor from "./components/ContactEditor";
 import ContactList from "./components/ContactList";
-import {useReducer, useRef, useState} from "react";
+import "./App.css";
 
 const mockData = [
     {
@@ -31,7 +31,7 @@ function App() {
     const [contacts, dispatch] = useReducer(reducer, mockData);
     const idRef= useRef("3");
 
-    const onCreate = (name, content) => {
+    const onCreate = useCallback((name, content) => {
         dispatch({
             type: "CREATE",
             data: {
@@ -40,14 +40,14 @@ function App() {
                 content: content,
             }
         })
-    }
+    }, []);
 
-    const onDelete = (targetId) => {
+    const onDelete = useCallback((targetId) => {
       dispatch({
           type: "DELETE",
           targetId: targetId,
       })
-    }
+    }, []);
 
     return (
       <div className="App">
